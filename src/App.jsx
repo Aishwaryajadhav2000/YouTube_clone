@@ -1,35 +1,65 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useEffect, useState } from 'react'
 import './App.css'
+import Menu from './components/Menu'
+import Login from './pages/Login'
+import SearchBar from './components/SearchBar'
+import Header from './components/Header'
+import { Outlet } from 'react-router-dom'
+import { useSidebar } from './components/MenuContext'
+import { useLocation } from 'react-router-dom'
+
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  const { sidebarOpen, toggleSidebar, toggleCollapse, sidebarCollapsed } = useSidebar();
+  const location = useLocation();
+
+  const isHome = location.pathname === "/"
+
+  useEffect(() => {
+    if (!isHome && sidebarOpen) {
+      // closes overlay sidebar if it's open
+      toggleSidebar();
+    }
+  }, [location.pathname]);
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+
+      <div className="sticky top-0 z-50 bg-white">
+        <Header />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+
+      <div className="relative block sm:flex">
+        {(isHome || sidebarOpen) && (
+          // <Menu overlay={!isHome} />
+          <Menu overlay={!isHome} collapsed={sidebarCollapsed} />
+        )}
+
+        {/* <div
+          className={`flex-1 h-[calc(100vh-56px)] overflow-x-auto transition-all ${isHome ? (sidebarCollapsed ? "pl-0 sm:pl-20" : "pl-64") : ""
+            }`}
+        > */}
+
+
+          <div
+            className={`flex-1 h-[calc(100vh-56px)] overflow-x-auto transition-all ${isHome
+              ? sidebarCollapsed
+                ? "pl-0 sm:pl-20"
+                : "pl-64"
+              : sidebarOpen
+                ? "pl-64"
+                : ""
+              }`}
+          >
+            <Outlet />
+          </div>
+        </div>
+        {/* <Header></Header>
+     <Outlet></Outlet> */}
+
+      </>
+      )
 }
 
-export default App
+      export default App
