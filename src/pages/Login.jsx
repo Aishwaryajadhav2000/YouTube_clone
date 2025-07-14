@@ -8,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 
 export default function Login() {
 
-
   const [step, setStep] = useState(1);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -46,8 +45,10 @@ export default function Login() {
         localStorage.setItem("token", responseData.accessToken)
         localStorage.setItem("user", JSON.stringify(responseData.user))
         navigate("/");
+        window.location.reload();
       } else if (loginresponse.status === 400) {
-        // alert(responseData.message);
+        alert(responseData.message , "Please try again");
+        setStep(1)
         setErrormessage(responseData.message)
       } else {
         setErrormessage("login failed. Please try again.");
@@ -110,9 +111,10 @@ export default function Login() {
                 <div className='m-4'>
 
                   <div className='mt-20'>
-                    <input type="text" placeholder='Enter Your Email ' value={email} onChange={(e) => setEmail(e.target.value)} required
+                    <input type="text" placeholder='Enter Your Email ' value={email} onChange={(e) => {setEmail(e.target.value) ,setErrormessage("")}} required
                       className='w-full border border-blue-500 rounded p-2'
                     />
+                    <p className='text-red-700'>{errrorMessage}</p>
 
                     <h4 className='text-blue-700 mt-2 font-semibold'>Forget email?</h4>
 

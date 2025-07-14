@@ -1,22 +1,8 @@
-/**
- * @file SidebarContext.js
- * @description Provides context for managing sidebar state, including open/close and collapse functionality.
- */
-
 import { createContext, useContext, useState, useEffect } from "react";
 
-// Create a context to manage sidebar state
+//context to manage sidebar state
 const SidebarContext = createContext();
 
-/**
- * SidebarProvider component to wrap the application and provide sidebar state context.
- * @component
- * @example
- * Usage in App component:
- * <SidebarProvider>
- *   <App />
- * </SidebarProvider>
- */
 
 export const SidebarProvider = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(() => {
@@ -25,13 +11,7 @@ export const SidebarProvider = ({ children }) => {
   });
 
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false); // For home route
-
-  /**
-   * Toggles the sidebar open/close state.
-   * Also stores the new state in localStorage to persist across reloads.
-   * @function
-   * @returns {void}
-   */
+  //sidebar
   const toggleSidebar = () => {
     setSidebarOpen((prev) => {
       const newState = !prev;
@@ -40,11 +20,7 @@ export const SidebarProvider = ({ children }) => {
     });
   };
 
-  /**
-   * Toggles the sidebar collapse/uncollapse state.
-   * @function
-   * @returns {void}
-   */
+  //sidebar collapse/uncollapse state.
   const toggleCollapse = () => setSidebarCollapsed((prev) => !prev);
 
   return (
@@ -56,9 +32,6 @@ export const SidebarProvider = ({ children }) => {
   );
 };
 
-/**
- * Custom hook to access the sidebar context.
- * @returns {Object} - Returns the sidebar context values: `sidebarOpen`, `toggleSidebar`, `sidebarCollapsed`, `toggleCollapse`
- */
+//Custom hook
 
 export const useSidebar = () => useContext(SidebarContext);

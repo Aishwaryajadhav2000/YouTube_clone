@@ -15,7 +15,7 @@ export default function Menu({ overlay }) {
   const location = useLocation();
   const isHome = location.pathname === "/"
   const isCollapsed = !overlay && sidebarCollapsed;
-   const sidebarClasses = overlay
+  const sidebarClasses = overlay
     ? "fixed top-0 left-0 w-64 h-full bg-white shadow-lg z-50"
     : `fixed top-[4rem] left-0 h-[calc(100vh-4rem)] transition-all duration-300 z-30 ${isCollapsed ? "hidden sm:block sm:w-20" : "w-64"
     } bg-white`;
@@ -28,13 +28,13 @@ export default function Menu({ overlay }) {
 
         {/* Menu icon */}
 
-       {(!isHome || overlay) && (
-        <div className="p-3 flex items-center justify-between">
-          <button onClick={overlay ? toggleSidebar : toggleCollapse}>
-            <MenuIcon size={24} />
-          </button>
-        </div>
-      )}
+        {(!isHome || overlay) && (
+          <div className="p-3 flex items-center justify-between">
+            <button onClick={overlay ? toggleSidebar : toggleCollapse}>
+              <MenuIcon size={24} />
+            </button>
+          </div>
+        )}
 
 
         <div className="overflow-y-auto h-[calc(100%-2.5rem)] px-3 pb-4">

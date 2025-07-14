@@ -18,7 +18,7 @@ function App() {
 
   useEffect(() => {
     if (!isHome && sidebarOpen) {
-      // closes overlay sidebar if it's open
+      // close sidebar if it's open
       toggleSidebar();
     }
   }, [location.pathname]);
@@ -32,15 +32,8 @@ function App() {
 
       <div className="relative block sm:flex">
         {(isHome || sidebarOpen) && (
-          // <Menu overlay={!isHome} />
           <Menu overlay={!isHome} collapsed={sidebarCollapsed} />
         )}
-
-        {/* <div
-          className={`flex-1 h-[calc(100vh-56px)] overflow-x-auto transition-all ${isHome ? (sidebarCollapsed ? "pl-0 sm:pl-20" : "pl-64") : ""
-            }`}
-        > */}
-
 
           <div
             className={`flex-1 h-[calc(100vh-56px)] overflow-x-auto transition-all ${isHome
@@ -55,8 +48,6 @@ function App() {
             <Outlet />
           </div>
         </div>
-        {/* <Header></Header>
-     <Outlet></Outlet> */}
 
       </>
       )

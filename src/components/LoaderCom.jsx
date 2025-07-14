@@ -2,6 +2,6 @@ import React from 'react'
 
 export default function LoaderCom() {
   return (
-    <div>LoaderCom</div>
+    <div>Please wait...</div>
   )
 }

@@ -1,4 +1,4 @@
-import { StrictMode, Suspense } from 'react'
+import { lazy, StrictMode, Suspense } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
@@ -10,21 +10,24 @@ import { Provider } from 'react-redux';
 import { store } from "./store/store.jsx";
 import { SidebarProvider } from './components/MenuContext.jsx';
 import LoaderCom from './components/LoaderCom.jsx';
-import Dashboard from './components/dashboard.jsx';
+import Dashboard from './components/Dashboard.jsx';
 import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
-import Channel from './pages/channel.jsx';
-// import Channel from './pages/Channel.jsx';
+import Channel from './pages/Channel.jsx';
+import NotFound from './pages/NotFound.jsx';
+
+const Watch = lazy(()=> import('./pages/Watch.jsx'))
 
 const appRouter = createBrowserRouter([
   {
     path : "/", element:<App></App>,
+    errorElement : <NotFound></NotFound>,
 
     children:[
       {index : true , element:<Dashboard></Dashboard>},
-      {path: "/channel" , element:<Channel></Channel>}
+      {path: "/channel" , element:<Channel></Channel>},
+      {path: "/watch/:id" , element:<Watch/>}
     ]
-
   },
   {
     path:"/login", element:<Login></Login>
