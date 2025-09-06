@@ -2,7 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import API_BASE_URL from '../services/Apicall';
 import { data } from 'react-router-dom';
-import ChannelVideos from '../components/ChannelVideos';
+import { Search, SearchCheck } from 'lucide-react';
+import UploadedVideos from '../components/UploadedVideos.jsx';
+import VideoCard from '../components/VideoCard.jsx';
+import ChannelPlaylists from '../components/ChannelPlaylists.jsx';
+import ChannelPosts from '../components/ChannelPosts.jsx';
 
 export default function Channel() {
   const user = useSelector((state) => state.auth.user);
@@ -11,8 +15,10 @@ export default function Channel() {
   const [channelHandle, setChannelHandle] = useState('');
   const [totalVideos, setTotalVideos] = useState('');
   const [channelVideos, setChannelVideos] = useState(false)
-  const [homeContent , setHomeContent] = useState(true);
-  const [allVideos , setAllVieos] = useState('')
+  const [homeContent, setHomeContent] = useState(true);
+  const [allVideos, setAllVieos] = useState('');
+  const [channelPlaylist, setChannelPlaylist] = useState(false);
+  const [channelPosts, setChannelPosts] = useState(false)
 
   useEffect(() => {
     setChannelVideos(false)
@@ -28,7 +34,7 @@ export default function Channel() {
         });
 
         const data = await res.json();
-        console.log(data)
+        console.log("channeldata", data)
         setChannelName(data.channelName);
         setChannelHandle(data.handle);
         setTotalVideos(data.videos.length);
@@ -64,7 +70,7 @@ export default function Channel() {
         {/* Info */}
         <div>
           <h1 className="text-3xl font-bold">{channelName || `${user.firstname} ${user.lastname}`}</h1>
-          <p className="text-sm text-white">@{channelHandle}</p>
+          <p className="text-sm text-white">{channelHandle}</p>
           <p className="text-sm text-white mt-1">0 subscribers </p>
           <p className="text-sm text-white mt-1">{totalVideos} Videos </p>
 
@@ -72,7 +78,7 @@ export default function Channel() {
       </div>
 
       {/* Nav Tabs */}
-      <div className="max-w-6xl mx-auto px-4 mt-6 border-b border-gray-700">
+      {/* <div className="max-w-6xl mx-auto px-4 mt-6 border-b border-gray-700">
         <nav className="flex flex-wrap text-sm font-semibold uppercase tracking-wide space-x-6 overflow-x-auto">
           {["Home", "Videos", "Shorts", "Live", "Playlists", "Community", "Channels", "About"].map((tab) => (
             <button
@@ -88,33 +94,65 @@ export default function Channel() {
             </button>
           ))}
         </nav>
+      </div> */}
+
+      <div className="max-w-6xl mx-auto px-4 mt-6 border-b border-gray-700">
+        <nav className="flex flex-wrap text-sm font-semibold uppercase tracking-wide space-x-6 overflow-x-auto">
+          <button onClick={() => { setHomeContent(false); setChannelVideos(true); setChannelPlaylist(false);setChannelPosts(false) }}>Videos</button>
+
+          <button onClick={() => { setHomeContent(false); setChannelVideos(false); setChannelPlaylist(true); setChannelPosts(false) }}>Playlists</button>
+
+          <button onClick={() => { setHomeContent(false); setChannelVideos(false); setChannelPosts(true); setChannelPlaylist(false) }}>Posts</button>
+
+          <button onClick={() => { setHomeContent(false); setChannelVideos(false); setChannelPlaylist(false); setChannelPosts(false) }}><Search></Search></button>
+        </nav>
       </div>
 
       {/* Main Content Area */}
-      <div className="max-w-6xl mx-auto px-4 mt-6">
-        <h2 className="text-xl font-semibold mb-2">Welcome to the channel!</h2>
-        {
-          totalVideos.length <= 0 && homeContent === true ?(
-            <p className="text-gray-300">
-              This channel hasn't uploaded any content yet.
-            </p>
+      {
+        homeContent === true && (
+          <div className="max-w-6xl mx-auto px-4 mt-6">
+            <h2 className="text-xl font-semibold mb-2">Welcome to the channel!</h2>
+            {
+              totalVideos <= 0 ? (
+                <p className="text-gray-300">
+                  This channel hasn't uploaded any content yet.
+                </p>
 
-          ) : (
-            <p className="text-gray-300">
-              Go watch the Videos uploaded by me
-            </p>
-          )
-        }
-      </div>
+              ) : (
+                <p className="text-gray-300">
+                  Go watch the Videos uploaded by me
+                </p>
+              )
+            }
+          </div>
+        )
+      }
+
+
+      {channelVideos === true && (
+        <div className="max-w-6xl mx-auto px-4 mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {allVideos.map((video) => (
+            <UploadedVideos key={video._id} video={video} />
+          ))}
+        </div>
+      )}
 
       {
-        channelVideos === true &&(
-          <div className="max-w-6xl mx-auto px-4 mt-6">
+        channelPlaylist === true && (
+          <div className="max-w-6xl mx-auto px-4 mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            <ChannelPlaylists></ChannelPlaylists>
+          </div>
 
-          <ChannelVideos videos={allVideos}></ChannelVideos>
+        )
+      }
 
-        </div>
-        ) 
+      {
+        channelPosts === true && (
+          <div className="max-w-6xl mx-auto px-4 mt-6 ">
+          <ChannelPosts></ChannelPosts>
+          </div>
+        )
       }
     </div>
   );

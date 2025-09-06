@@ -16,37 +16,37 @@ import Register from './pages/Register.jsx';
 import Channel from './pages/Channel.jsx';
 import NotFound from './pages/NotFound.jsx';
 
-const Watch = lazy(()=> import('./pages/Watch.jsx'))
+const Watch = lazy(() => import('./pages/Watch.jsx'))
 
 const appRouter = createBrowserRouter([
   {
-    path : "/", element:<App></App>,
-    errorElement : <NotFound></NotFound>,
+    path: "/", element: <App></App>,
+    errorElement: <NotFound></NotFound>,
 
-    children:[
-      {index : true , element:<Dashboard></Dashboard>},
-      {path: "/channel" , element:<Channel></Channel>},
-      {path: "/watch/:id" , element:<Watch/>}
+    children: [
+      { index: true, element: <Dashboard></Dashboard> },
+      { path: "/channel", element: <Channel></Channel> },
+      { path: "/watch/:id", element: <Watch /> }
     ]
   },
   {
-    path:"/login", element:<Login></Login>
+    path: "/login", element: <Login></Login>
   },
   {
-    path:"/register" , element:<Register></Register>
+    path: "/register", element: <Register></Register>
   },
-  
+
 ])
 
 
 createRoot(document.getElementById('root')).render(
-   <StrictMode>
-   <Provider store={store}>
-    <SidebarProvider>
-      <Suspense fallback={<LoaderCom></LoaderCom>}>
-       <RouterProvider router={appRouter}></RouterProvider>
-      </Suspense>
-    </SidebarProvider>
-   </Provider>
+  <StrictMode>
+    <Provider store={store}>
+      <SidebarProvider>
+        <Suspense fallback={<LoaderCom></LoaderCom>}>
+          <RouterProvider router={appRouter}></RouterProvider>
+        </Suspense>
+      </SidebarProvider>
+    </Provider>
   </StrictMode>
 )

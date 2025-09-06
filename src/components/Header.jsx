@@ -34,15 +34,23 @@ export default function Header() {
   const [createDropdown, setCreateDropdown] = useState(false)
   const createRef = useRef();
   const userMenuRef = useRef();
+  const [channelCreated, setChannelCreated] = useState(false);
 
 
   useEffect(() => {
 
+    if (user.channels?.length >= 1) {
+      setChannelCreated(true);
+    } else {
+      setChannelCreated(false);
+    }
+
+    console.log("data", user);
 
     function handleClickOutside(event) {
       if (createRef.current && !createRef.current.contains(event.target)) {
         setCreateDropdown(false);
-       
+
       }
     }
 
@@ -52,6 +60,10 @@ export default function Header() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  const handleViewChannel = () => {
+    navigate("/channel");
+  }
 
   const handleLogout = () => {
     dispatch(logout());
@@ -95,8 +107,8 @@ export default function Header() {
           {/* If user login : showing dropdown */}
           {
             dropdown && (
-              
-                <UserDropdown onLogout={handleLogout} logo={firstInitial} user={user} setDropdown={setDropdown}></UserDropdown >
+
+              <UserDropdown onLogout={handleLogout} logo={firstInitial} user={user} setDropdown={setDropdown}></UserDropdown >
 
             )
           }
@@ -107,16 +119,28 @@ export default function Header() {
 
 
                 <div className="flex gap-2 justify-center items-center  ">
-
                   <div className="relative" ref={createRef}>
-                    <span
-                      className="flex items-center bg-gray-200 p-3 rounded-full cursor-pointer"
-                      onClick={() => setCreateDropdown((prev) => !prev)}
-                    >
-                      <HiOutlinePlus className="mr-1" />
-                      Create
-                    </span>
-
+                     <span
+                          className="flex items-center bg-gray-200 p-3 rounded-full cursor-pointer"
+                          onClick={() => setCreateDropdown((prev) => !prev)}>
+                          <HiOutlinePlus className="mr-1" />
+                          Create
+                        </span>
+                    {/* {
+                      channelCreated === false ? (
+                        <span
+                          className="flex items-center bg-gray-200 p-3 rounded-full cursor-pointer"
+                          onClick={() => setCreateDropdown((prev) => !prev)}>
+                          <HiOutlinePlus className="mr-1" />
+                          Create
+                        </span>
+                      ) : (
+                        <span
+                          className="flex items-center bg-gray-200 p-3 rounded-full cursor-pointer" onClick={() => handleViewChannel()}>
+                          ViewChannel
+                        </span>
+                      )
+                    } */}
                     {createDropdown && (
                       <ul className="absolute right-0 mt-2 w-52 bg-white border border-gray-200 shadow-lg rounded-lg p-2 z-50">
                         <li className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded cursor-pointer">

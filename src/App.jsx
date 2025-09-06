@@ -35,22 +35,22 @@ function App() {
           <Menu overlay={!isHome} collapsed={sidebarCollapsed} />
         )}
 
-          <div
-            className={`flex-1 h-[calc(100vh-56px)] overflow-x-auto transition-all ${isHome
-              ? sidebarCollapsed
-                ? "pl-0 sm:pl-20"
-                : "pl-64"
-              : sidebarOpen
-                ? "pl-64"
-                : ""
-              }`}
-          >
-            <Outlet />
-          </div>
+        <div
+          className={`flex-1 h-[calc(100vh-56px)] overflow-x-auto transition-all ${isHome
+            ? sidebarCollapsed
+              ? "pl-0 sm:pl-20"
+              : "pl-64"
+            : sidebarOpen
+              ? "pl-64"
+              : ""
+            }`}
+        >
+          <Outlet />
         </div>
+      </div>
 
-      </>
-      )
+    </>
+  )
 }
 
-      export default App
+export default App
