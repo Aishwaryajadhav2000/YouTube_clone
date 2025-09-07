@@ -39,11 +39,11 @@ export default function Header() {
 
   useEffect(() => {
 
-    if (user.channels?.length >= 1) {
-      setChannelCreated(true);
-    } else {
-      setChannelCreated(false);
-    }
+    // if (user.channels?.length >= 1) {
+    //   setChannelCreated(true);
+    // } else {
+    //   setChannelCreated(false);
+    // }
 
     console.log("data", user);
 
